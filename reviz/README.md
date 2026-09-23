@@ -5,6 +5,8 @@ Bot Telegram : photos de cours → fiche de révision HTML (Google Apps Script +
 
 ## Installation (5 étapes)
 
+> Guide détaillé pas à pas, et dépannage : **[DEPLOIEMENT.md](DEPLOIEMENT.md)**.
+
 **1. Créer le bot Telegram.** Dans Telegram, écris à **@BotFather** → `/newbot` → choisis un nom.
 Note le **token** (`123456:ABC…`). Pour avoir l'**identifiant Telegram** de ta fille, elle écrit à
 **@userinfobot**, qui lui répond avec son `Id`.
@@ -21,14 +23,15 @@ Puis active *Google Apps Script API* sur <https://script.google.com/home/userset
 **4. Envoyer le code et déployer** (dans ce dossier `reviz/`) :
 ```bash
 clasp create --type standalone --title "RéviZ" --rootDir src
-git checkout src/appsscript.json   # clasp écrase ce fichier : on remet le nôtre
+git checkout -- src/appsscript.json   # clasp écrase ce fichier : on remet le nôtre
+rm src/Code.js                        # fichier vide ajouté par clasp
 clasp push -f
-clasp deploy
+clasp deploy -d "RéviZ"
 ```
 `clasp deploy` affiche un identifiant `AKfy…`. L'URL de la Web App est
 `https://script.google.com/macros/s/AKfy…/exec`.
 
-**5. Configurer et lancer `setup()`.** Ouvre le projet avec `clasp open-script` (ou `clasp open` selon la version).
+**5. Configurer et lancer `setup()`.** Ouvre le projet avec `clasp open-script`.
 Dans ⚙️ *Paramètres du projet* → *Propriétés du script*, ajoute :
 
 | Propriété | Valeur |
@@ -45,7 +48,7 @@ C'est fini : le dossier Drive **RéviZ**, la feuille **RéviZ - index**, le déc
 
 ## Au quotidien
 
-- **Mettre à jour le code en gardant la même URL :** `clasp push -f && clasp deploy -i AKfy…`
+- **Mettre à jour le code en gardant la même URL :** `clasp push -f` puis `clasp deploy -i AKfy…` (toujours les deux)
 - **Changer de modèle :** propriété `GEMINI_MODEL` (par défaut `gemini-3.8-flash`).
 - **Modifier les consignes données à l'IA :** `src/Prompts.gs`. **L'apparence :** `src/template.html`.
 - **En cas de souci :** onglet *Exécutions* de l'éditeur Apps Script, et la feuille `queue`
