@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Histoire — La Guerre froide</title>
+<style>
+  :root {
+    --h: 18;
+    --accent: hsl(var(--h) 65% 42%);
+    --accent-doux: hsl(var(--h) 80% 96%);
+    --accent-bord: hsl(var(--h) 55% 85%);
+    --fond: #f6f7f9;
+    --carte: #ffffff;
+    --texte: #1d2330;
+    --texte-2: #5b6474;
+    --jaune: #fff6d6;
+    --jaune-bord: #f1d372;
+    --ombre: 0 1px 2px rgba(20, 30, 50, .06), 0 2px 10px rgba(20, 30, 50, .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: hsl(var(--h) 70% 68%);
+      --accent-doux: hsl(var(--h) 30% 18%);
+      --accent-bord: hsl(var(--h) 30% 30%);
+      --fond: #12151b;
+      --carte: #1b2029;
+      --texte: #e8ebf1;
+      --texte-2: #a3abb9;
+      --jaune: #2f2a17;
+      --jaune-bord: #6b5a1f;
+      --ombre: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--fond); color: var(--texte);
+    font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .onglet-radio { position: absolute; opacity: 0; pointer-events: none; }
+
+  header {
+    background: var(--accent); color: #fff; padding: 20px 16px 18px;
+  }
+  @media (prefers-color-scheme: dark) { header { background: hsl(var(--h) 45% 26%); } }
+  .matiere {
+    display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; background: rgba(255,255,255,.2); padding: 3px 10px; border-radius: 99px;
+  }
+  h1 { margin: 8px 0 2px; font-size: 26px; line-height: 1.2; }
+  .date { margin: 0; font-size: 14px; opacity: .85; }
+
+  nav {
+    position: sticky; top: 0; z-index: 5; display: flex; gap: 6px; padding: 10px 16px;
+    background: var(--fond); border-bottom: 1px solid var(--accent-bord);
+  }
+  nav label {
+    flex: 1; text-align: center; padding: 9px 4px; border-radius: 12px; cursor: pointer;
+    font-weight: 600; font-size: 15px; color: var(--texte-2); background: var(--carte);
+    border: 1px solid var(--accent-bord); user-select: none;
+  }
+  #t-fiche:checked ~ nav label[for="t-fiche"],
+  #t-jeux:checked ~ nav label[for="t-jeux"],
+  #t-visuel:checked ~ nav label[for="t-visuel"] {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .onglet-radio:focus-visible ~ nav { outline: 2px solid var(--accent); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  .panneau { display: none; }
+  #t-fiche:checked ~ main .p-fiche,
+  #t-jeux:checked ~ main .p-jeux,
+  #t-visuel:checked ~ main .p-visuel { display: block; }
+
+  .resume {
+    font-size: 18px; margin: 0 0 16px; padding: 14px 16px; border-radius: 14px;
+    background: var(--accent-doux); border-left: 5px solid var(--accent);
+  }
+  .bloc {
+    background: var(--carte); border-radius: 16px; padding: 14px 16px 6px; margin-bottom: 14px;
+    box-shadow: var(--ombre); border: 1px solid transparent;
+  }
+  @media (prefers-color-scheme: dark) { .bloc { border-color: #262c37; } }
+  h2 { font-size: 19px; margin: 0 0 8px; color: var(--accent); }
+  h3 { font-size: 16.5px; margin: 12px 0 4px; }
+  .notion:first-of-type h3 { margin-top: 4px; }
+  ul, ol { margin: 0 0 10px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  li::marker { color: var(--accent); }
+  strong { color: var(--accent); font-weight: 700; }
+
+  dl { margin: 0 0 8px; }
+  dt { font-weight: 700; margin-top: 8px; }
+  dd { margin: 2px 0 0; padding-left: 12px; border-left: 3px solid var(--accent-bord); color: var(--texte); }
+
+  .reperes-liste { list-style: none; padding: 0; }
+  .reperes-liste li { display: flex; gap: 10px; align-items: baseline; padding: 6px 0; border-bottom: 1px dashed var(--accent-bord); }
+  .reperes-liste li:last-child { border-bottom: 0; }
+  .badge {
+    flex: none; font-weight: 700; font-size: 14.5px; padding: 2px 9px; border-radius: 8px;
+    background: var(--accent-doux); color: var(--accent); border: 1px solid var(--accent-bord);
+    font-variant-numeric: tabular-nums; max-width: 55%;
+  }
+
+  .retenir { background: var(--jaune); border: 1px solid var(--jaune-bord); }
+  .retenir h2 { color: inherit; }
+  .retenir ol { padding-left: 0; list-style: none; counter-reset: n; }
+  .retenir li { counter-increment: n; position: relative; padding-left: 36px; margin: 8px 0; font-weight: 500; }
+  .retenir li::before {
+    content: counter(n); position: absolute; left: 0; top: 1px; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .plus-loin {
+    border: 1px dashed var(--accent-bord); border-radius: 14px; padding: 10px 16px; margin-bottom: 14px;
+    color: var(--texte-2);
+  }
+  .plus-loin summary { cursor: pointer; font-weight: 600; color: var(--texte); }
+  .plus-loin ul { margin-top: 8px; }
+
+  mark.illisible { background: #ffd9d9; color: #8a1c1c; border-radius: 4px; padding: 0 4px; font-size: .9em; }
+
+  .bientot { text-align: center; padding: 40px 16px; color: var(--texte-2); }
+  .bientot .gros { font-size: 44px; }
+  footer { text-align: center; color: var(--texte-2); font-size: 13px; padding: 8px 16px 28px; }
+
+  @media print {
+    body { background: #fff; font-size: 12.5px; }
+    nav, .p-jeux, .p-visuel, footer, .plus-loin:not([open]) { display: none !important; }
+    .p-fiche { display: block !important; }
+    header { background: none; color: #000; padding: 0 0 6px; border-bottom: 2px solid #000; }
+    .matiere { background: none; padding: 0; }
+    main { padding: 8px 0; max-width: none; }
+    .bloc { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; padding: 8px 12px 2px; }
+  }
+</style>
+</head>
+<body>
+  <input class="onglet-radio" type="radio" name="onglet" id="t-fiche" checked>
+  <input class="onglet-radio" type="radio" name="onglet" id="t-jeux">
+  <input class="onglet-radio" type="radio" name="onglet" id="t-visuel">
+
+  <header>
+    <span class="matiere">Histoire</span>
+    <h1>La Guerre froide</h1>
+    <p class="date">Fiche du 23/09/2026</p>
+  </header>
+
+  <nav>
+    <label for="t-fiche">📝 Fiche</label>
+    <label for="t-jeux">🎮 Jeux</label>
+    <label for="t-visuel">🗺️ Visuel</label>
+  </nav>
+
+  <main>
+    <div class="panneau p-fiche">
+<p class="resume">De 1947 à 1991, les <strong>États-Unis</strong> et l&#39;<strong>URSS</strong> s&#39;affrontent sans jamais se faire directement la guerre : c&#39;est un conflit idéologique, politique et militaire qui divise le monde en deux blocs.</p>
+<section class="bloc notions"><h2><span aria-hidden="true">🧠</span> Notions clés</h2><div class="notion"><h3>Un monde coupé en deux blocs</h3><ul><li>Bloc de l&#39;Ouest : les États-Unis, la <strong>démocratie libérale</strong> et le capitalisme.</li><li>Bloc de l&#39;Est : l&#39;URSS, le <strong>communisme</strong> et l&#39;économie planifiée.</li><li>L&#39;Europe est coupée par le <strong>rideau de fer</strong>.</li></ul></div><div class="notion"><h3>Des crises sans guerre directe</h3><ul><li>Berlin est au cœur des tensions (blocus, puis mur).</li><li>Crise de Cuba : le monde frôle la guerre nucléaire.</li><li>Les deux Grands s&#39;affrontent par pays interposés (Corée, Vietnam).</li></ul></div><div class="notion"><h3>La fin de la Guerre froide</h3><ul><li>Gorbatchev lance des réformes en URSS.</li><li>Chute du <strong>mur de Berlin</strong>, puis fin de l&#39;URSS en 1991.</li></ul></div></section>
+<section class="bloc definitions"><h2><span aria-hidden="true">📖</span> Définitions</h2><dl><dt>Guerre froide</dt><dd>Affrontement indirect entre les États-Unis et l&#39;URSS, sans guerre directe entre eux.</dd><dt>Dissuasion nucléaire</dt><dd>Posséder l&#39;arme atomique pour empêcher l&#39;adversaire d&#39;attaquer, par peur de la riposte.</dd><dt>Rideau de fer</dt><dd>Frontière qui sépare l&#39;Europe de l&#39;Ouest et l&#39;Europe de l&#39;Est <mark class="illisible" title="Passage illisible sur la photo">[illisible]</mark>.</dd></dl></section>
+<section class="bloc reperes"><h2><span aria-hidden="true">📅</span> Repères (dates, formules)</h2><ul class="reperes-liste"><li><span class="badge">1947</span><span>Début de la Guerre froide (doctrines Truman et Jdanov).</span></li><li><span class="badge">1948-1949</span><span>Blocus de Berlin par l&#39;URSS.</span></li><li><span class="badge">1961</span><span>Construction du mur de Berlin.</span></li><li><span class="badge">1962</span><span>Crise des missiles de Cuba.</span></li><li><span class="badge">1989</span><span>Chute du mur de Berlin.</span></li><li><span class="badge">1991</span><span>Disparition de l&#39;URSS : fin de la Guerre froide.</span></li></ul></section>
+<section class="bloc exemples"><h2><span aria-hidden="true">💡</span> Exemples</h2><ul><li>Berlin, ville divisée, symbole de la Guerre froide.</li><li>La guerre du Vietnam, conflit par pays interposés.</li></ul></section>
+<section class="bloc retenir"><h2><span aria-hidden="true">⭐</span> 5 choses à retenir</h2><ol><li>La Guerre froide dure de <strong>1947 à 1991</strong>.</li><li>Elle oppose deux Grands : les <strong>États-Unis</strong> et l&#39;<strong>URSS</strong>.</li><li>Ils ne se font jamais la guerre directement, grâce à la <strong>dissuasion nucléaire</strong>.</li><li><strong>Berlin</strong> est le symbole de la division du monde.</li><li>Elle se termine avec la chute du mur (1989) et la fin de l&#39;URSS (1991).</li></ol></section>
+<details class="plus-loin"><summary>🔭 Pour aller plus loin <small>(facultatif, hors cours)</small></summary><ul><li>Le film « Le Pont des espions » (2015) raconte un échange d&#39;espions à Berlin.</li></ul></details>
+    </div>
+    <div class="panneau p-jeux">
+      <div class="bientot"><div class="gros">🎮</div>Flashcards, QCM, textes à trous… arrivent bientôt !</div>
+    </div>
+    <div class="panneau p-visuel">
+      <div class="bientot"><div class="gros">🗺️</div>Carte mentale et frise chronologique arrivent bientôt !</div>
+    </div>
+  </main>
+
+  <footer>RéviZ · fait à partir de ton cours</footer>
+
+  <script type="application/json" id="reviz-data">{"matiere":"Histoire","chapitre":"La Guerre froide","fiche":{"resume":"De 1947 à 1991, les **États-Unis** et l'**URSS** s'affrontent sans jamais se faire directement la guerre : c'est un conflit idéologique, politique et militaire qui divise le monde en deux blocs.","notions":[{"titre":"Un monde coupé en deux blocs","points":["Bloc de l'Ouest : les États-Unis, la **démocratie libérale** et le capitalisme.","Bloc de l'Est : l'URSS, le **communisme** et l'économie planifiée.","L'Europe est coupée par le **rideau de fer**."]},{"titre":"Des crises sans guerre directe","points":["Berlin est au cœur des tensions (blocus, puis mur).","Crise de Cuba : le monde frôle la guerre nucléaire.","Les deux Grands s'affrontent par pays interposés (Corée, Vietnam)."]},{"titre":"La fin de la Guerre froide","points":["Gorbatchev lance des réformes en URSS.","Chute du **mur de Berlin**, puis fin de l'URSS en 1991."]}],"definitions":[{"terme":"Guerre froide","definition":"Affrontement indirect entre les États-Unis et l'URSS, sans guerre directe entre eux."},{"terme":"Dissuasion nucléaire","definition":"Posséder l'arme atomique pour empêcher l'adversaire d'attaquer, par peur de la riposte."},{"terme":"Rideau de fer","definition":"Frontière qui sépare l'Europe de l'Ouest et l'Europe de l'Est [illisible]."}],"reperes":[{"repere":"1947","explication":"Début de la Guerre froide (doctrines Truman et Jdanov)."},{"repere":"1948-1949","explication":"Blocus de Berlin par l'URSS."},{"repere":"1961","explication":"Construction du mur de Berlin."},{"repere":"1962","explication":"Crise des missiles de Cuba."},{"repere":"1989","explication":"Chute du mur de Berlin."},{"repere":"1991","explication":"Disparition de l'URSS : fin de la Guerre froide."}],"exemples":["Berlin, ville divisée, symbole de la Guerre froide.","La guerre du Vietnam, conflit par pays interposés."],"a_retenir":["La Guerre froide dure de **1947 à 1991**.","Elle oppose deux Grands : les **États-Unis** et l'**URSS**.","Ils ne se font jamais la guerre directement, grâce à la **dissuasion nucléaire**.","**Berlin** est le symbole de la division du monde.","Elle se termine avec la chute du mur (1989) et la fin de l'URSS (1991)."],"aller_plus_loin":["Le film « Le Pont des espions » (2015) raconte un échange d'espions à Berlin."]}}</script>
+</body>
+</html>
